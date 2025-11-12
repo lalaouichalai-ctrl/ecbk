@@ -1,0 +1,57 @@
+{
+  "users": [
+    {
+      "clientCode": "12345",
+      "pin": "1111",
+      "name": "Client Test Principal",
+      "email": "test.principal@mail.com",
+      "phone": "+2250101010101",
+      "address": "Abidjan, Côte d’Ivoire",
+      "solde": 1500000.75,
+      "advisor": "Mme. Coulibaly",
+      "lastConnection": "11/11/2025 à 15h30",
+      "rib": "FR76 1234 5678 9012 3456 7890 123",
+      "bic": "ECOBCIXX",
+      "cardNumber": "4567890123456789",
+      "cardHolderName": "CLIENT TEST PRINCIPAL",
+      "expiryDate": "12/28",
+      "cardType": "VISA PREMIER",
+      "isLocked": false,
+      "lockReason": null,
+      "history": [
+        {
+          "date": "2025-11-01T10:00:00.000Z",
+          "type": "Salaire",
+          "description": "Virement Employeur",
+          "amount": 750000.00
+        },
+        {
+          "date": "2025-11-10T15:30:00.000Z",
+          "type": "Retrait DAB",
+          "description": "Retrait Distributeur",
+          "amount": -50000.00
+        }
+      ]
+    },
+    {
+      "clientCode": "67890",
+      "pin": "2222",
+      "name": "Client Bloqué Secondaire",
+      "email": "client.bloque@mail.com",
+      "phone": "Non renseigné",
+      "address": "Yamoussoukro, Côte d’Ivoire",
+      "solde": 25000.00,
+      "advisor": "M. Kone",
+      "lastConnection": "05/11/2025 à 09h00",
+      "rib": "FR76 0987 6543 2109 8765 4321 098",
+      "bic": "ECOBCIXX",
+      "cardNumber": "Non renseigné",
+      "cardHolderName": "NON RENSEIGNÉ",
+      "expiryDate": "Non renseigné",
+      "cardType": "Non renseigné",
+      "isLocked": true,
+      "lockReason": "Trop de tentatives de connexion échouées.",
+      "history": []
+    }
+  ]
+}
