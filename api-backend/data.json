@@ -1,9 +1,9 @@
 {
   "users": [
     {
-      "clientCode": "12345",
-      "pin": "1111",
-      "name": "Client Test Principal",
+      "clientCode": "0000000000",
+      "pin": "000000",
+      "name": "Client Test Principal (ADMIN)",
       "email": "test.principal@mail.com",
       "phone": "+2250101010101",
       "address": "Abidjan, Côte d’Ivoire",
