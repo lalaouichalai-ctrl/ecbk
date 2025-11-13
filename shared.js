@@ -2,20 +2,12 @@
 // shared.js - Fonctions API et utilitaires partagés (Version API RENDER)
 // =========================================================================
 
-// 🚨 URL de l'API déployée sur Render.com
-// L'API contient un seul compte fonctionnel pour le moment :
-// Code Client: 12345
-// PIN: 1111
+// 🚨 CORRIGÉ : L'URL de l'API est le Web Service, PAS le Static Site.
+// Nouveaux identifiants Admin : Code Client: 0000000000 / PIN: 000000
 const API_BASE_URL = "https://ecbk.onrender.com"; 
 
 // --- GESTION DE L'AUTHENTIFICATION ET DES SESSIONS ---
 
-/**
- * Tente de connecter l'utilisateur via l'API.
- * @param {string} clientCode
- * @param {string} pin
- * @returns {Promise<object>} L'objet utilisateur si succès, ou un message d'erreur.
- */
 async function apiLogin(clientCode, pin) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/login`, {
@@ -29,10 +21,9 @@ async function apiLogin(clientCode, pin) {
         const data = await response.json();
 
         if (response.ok && data.success) {
-            // Le Front-End simule le rôle d'admin pour ce compte unique
-            data.user.isAdmin = (data.user.clientCode === "12345"); 
+            // Mise à jour de la vérification Admin avec le nouveau code client
+            data.user.isAdmin = (data.user.clientCode === "0000000000"); 
             
-            // Stocker les données de l'utilisateur dans le sessionStorage
             sessionStorage.setItem('clientCode', data.user.clientCode);
             sessionStorage.setItem('userData', JSON.stringify(data.user));
             return data.user;
@@ -46,19 +37,14 @@ async function apiLogin(clientCode, pin) {
     }
 }
 
-/**
- * Récupère les données utilisateur mises à jour depuis le serveur.
- * @param {string} clientCode
- * @returns {Promise<object|null>} L'objet utilisateur mis à jour.
- */
 async function fetchUserData(clientCode) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/users/${clientCode}`);
         const data = await response.json();
 
         if (response.ok && data.success) {
-            data.user.isAdmin = (data.user.clientCode === "12345"); 
-            // Mettre à jour les données dans le sessionStorage
+            // Mise à jour de la vérification Admin avec le nouveau code client
+            data.user.isAdmin = (data.user.clientCode === "0000000000"); 
             sessionStorage.setItem('userData', JSON.stringify(data.user));
             return data.user;
         }
@@ -69,12 +55,6 @@ async function fetchUserData(clientCode) {
     }
 }
 
-/**
- * Enregistre une transaction (virement) via l'API et met à jour le solde.
- * @param {string} clientCode
- * @param {object} transaction - doit inclure type, description, et amount (négatif pour débit).
- * @returns {Promise<object>} Objet avec success: true/false et newSolde ou message.
- */
 async function apiAddTransaction(clientCode, transaction) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/users/${clientCode}/history`, {
@@ -101,16 +81,10 @@ async function apiAddTransaction(clientCode, transaction) {
 
 // --- Fonctions d'état et de session ---
 
-/**
- * Vérifie si l'utilisateur est connecté et met à jour l'interface.
- * @param {boolean} adminOnly - Redirige si l'utilisateur n'est pas admin.
- * @returns {object|null} L'objet utilisateur si connecté et autorisé.
- */
 function checkAuth(adminOnly = false) {
     const sessionClientCode = sessionStorage.getItem('clientCode');
     let currentUser = getUserData();
 
-    // Redirection si non connecté
     if (!sessionClientCode || !currentUser) {
         if (!window.location.pathname.includes('index.html')) {
             window.location.href = 'index.html';
@@ -118,13 +92,12 @@ function checkAuth(adminOnly = false) {
         return null;
     }
     
-    // Redirection si l'accès admin est requis (le seul compte 12345 est l'admin)
+    // La vérification Admin utilise maintenant le code 0000000000
     if (adminOnly && !currentUser.isAdmin) {
         window.location.href = 'dashboard.html';
         return null;
     }
 
-    // Mise à jour de l'interface (si les éléments existent)
     const userNameElement = document.querySelector('.user-info span:first-child');
     if (userNameElement) {
         userNameElement.textContent = `Bienvenue ${currentUser.name}`;
@@ -135,7 +108,6 @@ function checkAuth(adminOnly = false) {
         lastConnElement.textContent = `Dernière connexion le ${currentUser.lastConnection}`;
     }
     
-    // Ajout de l'écouteur de déconnexion
     const logoutLink = document.querySelector('.status');
     if (logoutLink) {
         logoutLink.addEventListener('click', (e) => {
@@ -147,18 +119,11 @@ function checkAuth(adminOnly = false) {
     return currentUser;
 }
 
-/**
- * Récupère les données utilisateur de la session.
- * @returns {object|null}
- */
 function getUserData() {
     const userData = sessionStorage.getItem('userData');
     return userData ? JSON.parse(userData) : null;
 }
 
-/**
- * Déconnecte l'utilisateur et vide la session.
- */
 function logout() {
     sessionStorage.removeItem('clientCode');
     sessionStorage.removeItem('userData');
@@ -167,11 +132,6 @@ function logout() {
 
 // --- Fonctions utilitaires ---
 
-/**
- * Formate un montant en devise XOF (Franc CFA)
- * @param {number} amount
- * @returns {string}
- */
 function formatCurrency(amount) {
     if (typeof amount !== 'number') return 'N/A';
     return amount.toLocaleString('fr-FR', {
@@ -182,11 +142,7 @@ function formatCurrency(amount) {
     });
 }
 
-/**
- * Lance la vérification d'authentification au chargement de la page.
- */
 document.addEventListener('DOMContentLoaded', () => {
-    // Ne rien faire sur la page de connexion
     if (!window.location.pathname.includes('index.html')) {
         checkAuth();
     }
