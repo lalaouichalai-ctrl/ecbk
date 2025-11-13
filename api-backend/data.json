@@ -1,43 +1,57 @@
-[
-  // =========================================================================
-  // 1. UTILISATEUR ADMINISTRATEUR (Code: 0000000000 / PIN: 000000)
-  // =========================================================================
-  {
-    "clientCode": "0000000000",
-    "pin": "000000",
-    "name": "Client Test Principal (ADMIN)",
-    "isAdmin": true,
-    "solde": 99999999.99,
-    "lastConnection": "13/11/2025",
-    "telephone": "00 00 00 00 00",
-    "rib": "FR0000000000000000000000000",
-    "bic": "ECOBANKFRXXX",
-    "email": "admin.ecbk@ecobank.com",
-    "conseiller": "Système",
-    "adressePostale": "Siège Social, Paris, France",
-    "statutCompte": "ACTIF",
-    "history": []
-  },
-  
-  // =========================================================================
-  // 2. UTILISATEUR CLIENT UNIQUE (Code: 5294620168 / PIN: 685143)
-  // =========================================================================
-  {
-    "clientCode": "5294620168",
-    "pin": "685143",
-    "name": "Nicolas Veronese",
-    "isAdmin": false,
-    "solde": 150000.00,
-    "lastConnection": "13/11/2025",
-    "telephone": "21 27 48 52 36",
-    "rib": "FR7528663300010000000000185",
-    "bic": "BNPAFRPRXXX",
-    "email": "nicolas.veronese@laposte.net",
-    "conseiller": "M. Dupont",
-    "adressePostale": "2 RUE DU DOME, 67000 Strasbourg",
-    "statutCompte": "ACTIF",
-    "history": [
-      { "date": "10/11/2025", "description": "Solde Initial", "montant": 150000.00, "type": "CREDIT", "soldeApres": 150000.00 }
-    ]
-  }
-]
+{
+  "users": [
+    {
+      "clientCode": "0000000000",
+      "pin": "000000",
+      "name": "Client Test Principal (ADMIN)",
+      "email": "test.principal@mail.com",
+      "phone": "+2250101010101",
+      "address": "Abidjan, Côte d’Ivoire",
+      "solde": 1500000.75,
+      "advisor": "Mme. Coulibaly",
+      "lastConnection": "11/11/2025 à 15h30",
+      "rib": "FR76 1234 5678 9012 3456 7890 123",
+      "bic": "ECOBCIXX",
+      "cardNumber": "4567890123456789",
+      "cardHolderName": "CLIENT TEST PRINCIPAL",
+      "expiryDate": "12/28",
+      "cardType": "VISA PREMIER",
+      "isLocked": false,
+      "lockReason": null,
+      "history": [
+        {
+          "date": "2025-11-01T10:00:00.000Z",
+          "type": "Salaire",
+          "description": "Virement Employeur",
+          "amount": 750000.00
+        },
+        {
+          "date": "2025-11-10T15:30:00.000Z",
+          "type": "Retrait DAB",
+          "description": "Retrait Distributeur",
+          "amount": -50000.00
+        }
+      ]
+    },
+    {
+      "clientCode": "6789000001",
+      "pin": "222201",
+      "name": "Client Bloqué Secondaire",
+      "email": "client.bloque@mail.com",
+      "phone": "Non renseigné",
+      "address": "Yamoussoukro, Côte d’Ivoire",
+      "solde": 25000.00,
+      "advisor": "M. Kone",
+      "lastConnection": "05/11/2025 à 09h00",
+      "rib": "FR76 0987 6543 2109 8765 4321 098",
+      "bic": "ECOBCIXX",
+      "cardNumber": "Non renseigné",
+      "cardHolderName": "NON RENSEIGNÉ",
+      "expiryDate": "Non renseigné",
+      "cardType": "Non renseigné",
+      "isLocked": true,
+      "lockReason": "Trop de tentatives de connexion échouées.",
+      "history": []
+    }
+  ]
+}
