@@ -1,152 +1,97 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion Espace Client</title>
-    <link rel="stylesheet" href="styles.css">
-	    <style>
-        body {
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; background-color: #e6ecf2;
-            margin: 0;
-            background-image: url('https://www.lafinancepourtous.com/wp-content/thumbnails/uploads/2024/10/banque_de_france_collectivite_nationale460-tt-width-508-height-299-fill-0-crop-0-bgcolor-eeeeee.png');
-            background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;
-        }
-        .login-container {
-            background: white; padding: 30px; border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2); width: 350px; text-align: center;
-        }
-        .login-container h2 { color: #003366; margin-bottom: 20px; border-bottom: none; }
-        .login-form input {
-            width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
-        }
-        .login-form button {
-            background-color: #0066cc; color: white; padding: 10px; border: none; border-radius: 4px; width: 100%;
-            cursor: pointer; font-size: 1.1em; font-weight: bold;
-        }
-        .error-message { color: #e74c3c; margin-top: 10px; font-weight: bold; }
-    </style>
-    <style>
-        /* Style spécifique pour la page de connexion */
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #e6ecf2; /* Fond clair cohérent */
-        }
-        .login-container {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
-            width: 350px;
-            text-align: center;
-        }
-        .login-container h2 {
-            color: #003366;
-            margin-bottom: 20px;
-            border-bottom: none;
-        }
-        .login-form input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        .login-form button {
-            background-color: #0066cc;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            width: 100%;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: bold;
-        }
-        .error-message {
-            color: #e74c3c;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion Espace Client</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Styles généraux pour centrer la page et la carte de connexion */
+        body {
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; margin: 0;
+            /* Remplacez l'URL de l'image de fond par une version fonctionnelle ou locale */
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e0/Bank_of_France_in_Lyon.jpg'); 
+            background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;
+            background-color: #e6ecf2;
+        }
+        .login-container {
+            background: white; padding: 30px; border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.5); width: 350px; text-align: center;
+            z-index: 10; /* Assure que le formulaire est au-dessus de l'image de fond */
+        }
+        .login-container h2 { color: #003366; margin-bottom: 20px; border-bottom: none; }
+        .login-form input {
+            width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
+        }
+        .login-form button {
+            background-color: #0066cc; color: white; padding: 10px; border: none; border-radius: 4px; width: 100%;
+            cursor: pointer; font-size: 1.1em; font-weight: bold; transition: background-color 0.3s;
+        }
+        .login-form button:hover { background-color: #0056b3; }
+        #errorMessage { color: #e74c3c; margin-top: 10px; font-weight: bold; }
+    </style>
 </head>
 <body>
-    <div class="login-container"><center><img src=https://cdn1.vc4a.com/media/2017/03/19122931/Ecobank_Logo_400x400.jpg height=180 width=190></center>
-        <h2>Accéder à mes comptes</h2>
-        <form id="login-form" class="login-form">
-            <input type="text" id="clientCode" placeholder="Code Client (10 chiffres)" maxlength="10" required>
-            <input type="password" id="pin" placeholder="PIN (6 chiffres)" maxlength="6" required>
-            <button type="submit">Se connecter</button>
-            <p id="errorMessage" class="error-message" style="display:none;"></p>
-        </form>
-    </div>
+    <div class="login-container">
+        <center>
+            <img src="https://cdn1.vc4a.com/media/2017/03/19122931/Ecobank_Logo_400x400.jpg" height="180" width="190" alt="Logo Ecobank">
+        </center>
+        <h2>Accéder à mes comptes</h2>
+        <form id="login-form" class="login-form">
+            <input type="text" id="clientCode" placeholder="Code Client (10 chiffres)" maxlength="10" required>
+            <input type="password" id="pin" placeholder="PIN (6 chiffres)" maxlength="6" required>
+            <button type="submit">Se connecter</button>
+            <p id="errorMessage" style="display:none;"></p>
+        </form>
+    </div>
 
-    <script src="shared.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginForm = document.getElementById('login-form');
-            const clientCodeInput = document.getElementById('clientCode');
-            const pinInput = document.getElementById('pin');
-            const errorMessage = document.getElementById('errorMessage');
+        <script src="shared.js"></script> 
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('login-form');
+            const clientCodeInput = document.getElementById('clientCode');
+            const pinInput = document.getElementById('pin');
+            const errorMessageDiv = document.getElementById('errorMessage'); // CORRIGÉ : Utilise l'ID 'errorMessage'
 
-            // Si un utilisateur est déjà connecté, rediriger
-            if (localStorage.getItem('currentClientCode')) {
-                // Tenter de déterminer s'il s'agit d'un admin pour la redirection
-                const users = getUsers();
-                const currentCode = localStorage.getItem('currentClientCode');
-                const currentUser = users.find(u => u.clientCode === currentCode);
-                
-                if (currentUser) {
-                    if (currentUser.isAdmin) {
-                        window.location.href = 'manage.html';
-                    } else {
-                        window.location.href = 'dashboard.html';
-                    }
-                    return;
-                }
+            // Fonction pour afficher les messages d'erreur
+            function displayError(message) {
+                errorMessageDiv.textContent = message;
+                errorMessageDiv.style.display = 'block';
             }
 
+            // La vérification d'utilisateur déjà connecté est déplacée vers checkAuth dans shared.js
 
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                errorMessage.style.display = 'none';
+            loginForm.addEventListener('submit', async (e) => { // Rendre la fonction asynchrone pour apiLogin
+                e.preventDefault();
+                errorMessageDiv.style.display = 'none';
 
-                const clientCode = clientCodeInput.value.trim();
-                const pin = pinInput.value.trim();
+                const clientCode = clientCodeInput.value.trim();
+                const pin = pinInput.value.trim();
 
-                if (clientCode.length !== 10 || pin.length !== 6) {
-                    errorMessage.textContent = 'Veuillez entrer un Code Client (10 chiffres) et un PIN (6 chiffres) valides.';
-                    errorMessage.style.display = 'block';
-                    return;
-                }
+                // Vérification des formats (10 et 6 chiffres)
+                if (clientCode.length !== 10 || pin.length !== 6 || isNaN(clientCode) || isNaN(pin)) {
+                    displayError('Veuillez entrer un Code Client (10 chiffres) et un PIN (6 chiffres) valides.');
+                    return;
+                }
 
-                const users = getUsers();
-                const user = users.find(u => u.clientCode === clientCode && u.pin === pin);
+                // 🚨 NOUVEL APPEL ASYNCHRONE À LA FONCTION API
+                const result = await apiLogin(clientCode, pin);
 
-                if (user) {
-                    // Connexion réussie : Stocker le code client
-                    localStorage.setItem('currentClientCode', user.clientCode);
-
-                    // Mettre à jour l'heure de dernière connexion
-                    user.lastConnection = new Date().toLocaleDateString('fr-FR') + ' à ' + new Date().toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'});
-                    updateUser(user);
-                    
-                    if (user.isAdmin) {
-                        window.location.href = 'manage.html';
-                    } else {
-                        window.location.href = 'dashboard.html';
-                    }
-                } else {
-                    errorMessage.textContent = 'Code Client ou PIN incorrect.';
-                    errorMessage.style.display = 'block';
-                }
-            });
-        });
-    </script>
+                if (result && result.clientCode) {
+                    // Connexion réussie, redirection
+                    if (result.isAdmin) {
+                        window.location.href = 'manage.html';
+                    } else {
+                        window.location.href = 'dashboard.html';
+                    }
+                } else {
+                    // Échec de la connexion
+                    displayError(result.message || "Erreur inconnue lors de la connexion.");
+                }
+            });
+        });
+    </script>
 </body>
 </html>
