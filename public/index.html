@@ -1,100 +1,138 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion Espace Client</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Styles généraux pour centrer la page et la carte de connexion */
-        body {
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; margin: 0;
-            /* Remplacez l'URL de l'image de fond par une version fonctionnelle ou locale */
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e0/Bank_of_France_in_Lyon.jpg'); 
-            background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;
-            background-color: #e6ecf2;
-        }
-        .login-container {
-            background: white; padding: 30px; border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.5); width: 350px; text-align: center;
-            z-index: 10; /* Assure que le formulaire est au-dessus de l'image de fond */
-        }
-        .login-container h2 { color: #003366; margin-bottom: 20px; border-bottom: none; }
-        .login-form input {
-            width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
-        }
-        .login-form button {
-            background-color: #0066cc; color: white; padding: 10px; border: none; border-radius: 4px; width: 100%;
-            cursor: pointer; font-size: 1.1em; font-weight: bold; transition: background-color 0.3s;
-        }
-        .login-form button:hover { background-color: #0056b3; }
-        #errorMessage { color: #e74c3c; margin-top: 10px; font-weight: bold; }
-    </style>
-</head>
-<body>
-    <div class="login-container">
-        <center>
-            <img src="https://cdn1.vc4a.com/media/2017/03/19122931/Ecobank_Logo_400x400.jpg" height="180" width="190" alt="Logo Ecobank">
-        </center>
-        <h2>Accéder à mes comptes</h2>
-        <form id="login-form" class="login-form">
-            <input type="text" id="clientCode" placeholder="Code Client (10 chiffres)" maxlength="10" required>
-            <input type="password" id="pin" placeholder="PIN (6 chiffres)" maxlength="6" required>
-            <button type="submit">Se connecter</button>
-            <p id="errorMessage" style="display:none;"></p>
-        </form>
-    </div>
-
-        <script src="shared.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Vérification de session au chargement de la page
-    const currentUser = checkAuth(); 
-    if (currentUser) {
-        // Rediriger l'utilisateur s'il est déjà connecté
-        if (currentUser.isAdmin) {
-            window.location.href = 'manage.html';
-        } else {
-            window.location.href = 'dashboard.html';
+    <meta charset="UTF-8">
+    <title>Ecobank - Connexion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body.login-bg {
+            background-image: url('images/bg-ecobank-01.jpg'); /* Assurez-vous que le chemin est correct */
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
         }
-        return;
-    }
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 350px;
+        }
+        .logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        .login-container h2 {
+            font-size: 1.5em;
+            color: #003366;
+            margin-bottom: 20px;
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        .login-container button {
+            width: 90%;
+            padding: 10px;
+            background-color: #007bff; /* Bleu Ecobank */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+        #error-message {
+            color: red;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="login-bg">
 
-    const loginForm = document.getElementById('login-form');
-    loginForm.addEventListener('submit', async (e) => { // NOTE: ajout de 'async'
-        e.preventDefault();
+    <div class="login-container">
+        <img src="images/ecobank-logo-full.png" alt="Ecobank Logo" class="logo">
+        <h2>Accéder à mes comptes</h2>
         
-        const clientCode = document.getElementById('client-code').value;
-        const pin = document.getElementById('pin').value;
-        const errorMessageDiv = document.getElementById('error-message');
-        
-        errorMessageDiv.textContent = '';
-        errorMessageDiv.hidden = true;
+        <form id="login-form">
+            <input type="text" id="client-code" placeholder="Code Client (10 chiffres)" required maxlength="10" inputmode="numeric">
+            <input type="password" id="pin" placeholder="PIN (6 chiffres)" required maxlength="6" inputmode="numeric">
+            <button type="submit">Se connecter</button>
+        </form>
 
-        // Appel de la nouvelle fonction API
-        const user = await apiLogin(clientCode, pin); 
+        <div id="error-message" hidden></div>
+    </div>
 
-        if (user && user.clientCode) {
-            // Connexion réussie, redirection
-            if (user.isAdmin) {
+    <script src="shared.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Vérification de session au chargement de la page
+        const currentUser = checkAuth(); 
+        if (currentUser) {
+            // Rediriger l'utilisateur s'il est déjà connecté
+            if (currentUser.isAdmin) {
                 window.location.href = 'manage.html';
             } else {
                 window.location.href = 'dashboard.html';
             }
-        } else {
-            // Échec de la connexion
-            errorMessageDiv.textContent = user.message || "Identifiants incorrects ou service indisponible.";
-            errorMessageDiv.hidden = false;
+            return;
         }
-    });
 
-    // Mettre à jour le statut de la dernière connexion si l'élément existe
-    const lastConnElement = document.querySelector('.last-conn');
-    if (lastConnElement) {
-        lastConnElement.textContent = `Dernière connexion le ${getUsers()[0]?.lastConnection || 'N/A'}`; // Laisser getUsers() car il n'est plus utilisé de manière critique
-    }
-});
-</script>
+        const loginForm = document.getElementById('login-form');
+        const errorMessageDiv = document.getElementById('error-message');
+        
+        // 2. Gestion de la soumission du formulaire de connexion (maintenant ASYNCHRONE)
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const clientCode = document.getElementById('client-code').value;
+            const pin = document.getElementById('pin').value;
+            
+            errorMessageDiv.textContent = '';
+            errorMessageDiv.hidden = true;
+            
+            // Validation simple pour s'assurer que le format est respecté
+            if (clientCode.length !== 10 || pin.length !== 6) {
+                errorMessageDiv.textContent = "Veuillez vérifier la longueur du Code Client (10 chiffres) et du PIN (6 chiffres).";
+                errorMessageDiv.hidden = false;
+                return;
+            }
+
+            // Appel de la fonction API (apiLogin dans shared.js)
+            const user = await apiLogin(clientCode, pin); 
+
+            if (user && user.clientCode) {
+                // Connexion réussie, redirection
+                if (user.isAdmin) {
+                    window.location.href = 'manage.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
+            } else {
+                // Échec de la connexion
+                errorMessageDiv.textContent = user.message || "Identifiants incorrects ou service indisponible.";
+                errorMessageDiv.hidden = false;
+            }
+        });
+    });
+    </script>
 </body>
 </html>
