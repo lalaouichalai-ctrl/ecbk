@@ -6,7 +6,7 @@
 // L'API contient un seul compte fonctionnel pour le moment :
 // Code Client: 12345
 // PIN: 1111
-const API_BASE_URL = "https://ecbk-frontend.onrender.com"; 
+const API_BASE_URL = "https://ecbk.onrender.com"; 
 
 // --- GESTION DE L'AUTHENTIFICATION ET DES SESSIONS ---
 
